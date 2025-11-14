@@ -1,0 +1,41 @@
+# --------------------------------
+# Python Caches and Compiled Files
+#---------------------------------
+__pycache__/
+*.py[cod]
+
+# -------------------
+# Tests and Coverage
+# -------------------
+*.pytest_cache
+.coverage
+
+# ---------------
+# Database & Logs
+# ---------------
+*.db
+
+# -------------------
+# Virtual Enviroments
+# -------------------
+.env
+venv
+
+# -----------------------
+#Project-specific Folders
+# -----------------------
+combined_invoice/
+final/
+mail_folder/
+invoice/
+old_files/
+report/
+result_set/
+tvs_portal_files/
+
+#-----------------------
+# Editer /  System Files
+#-----------------------
+.vscode/
+Thumbs.db 
+.DS_Store 
