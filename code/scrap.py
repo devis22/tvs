@@ -178,7 +178,7 @@ def download_data():
             day_no  =  now.strftime("%j") 
             week_no =  now.strftime("%U") 
             year = now.strftime("%Y")
-            df.to_csv(fr"D:\tvsbot\tvs_portal_files\{user}_{day_no}_{week_no}_{year}.csv",index = False)
+            df.to_csv(fr"\tvsbot\tvs_portal_files\{user}_{day_no}_{week_no}_{year}.csv",index = False)
     except Exception as e:
             print(e)
     time.sleep(0.5)
@@ -230,7 +230,7 @@ def extract_mail_table():
                         if headers:
                             all_table_data.append(headers)
                         all_table_data.extend(table_data)
-                        with open(r'D:\tvsbot\report\email_table_data.csv', 'w', newline='', encoding='utf-8') as file:
+                        with open(r'\tvsbot\report\email_table_data.csv', 'w', newline='', encoding='utf-8') as file:
                             writer = csv.writer(file)
                             for table_data in all_table_data:
                                 if isinstance(table_data, list) and len(table_data) > 0 and isinstance(table_data[0], list):
@@ -246,25 +246,25 @@ def extract_mail_table():
 def compare_files():
     try:
         # Load the DataFrames from CSV files
-        folder_path = r'D:\tvsbot\tvs_portal_files'
+        folder_path = r'\tvsbot\tvs_portal_files'
         file_list = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
         combined_data = pd.DataFrame()
         for file in file_list:
             file_path = os.path.join(folder_path, file)
             data = pd.read_csv(file_path)
             combined_data = pd.concat([combined_data, data], ignore_index=True)
-            combined_data.to_csv(r'D:\tvsbot\combined_invoice\combined_data.csv', index = False)
-        mail_data = pd.read_csv(r'D:\tvsbot\report\email_table_data.csv' , skiprows = 1)
+            combined_data.to_csv(r'\tvsbot\combined_invoice\combined_data.csv', index = False)
+        mail_data = pd.read_csv(r'\tvsbot\report\email_table_data.csv' , skiprows = 1)
         col_rename = mail_data.rename(columns = {'CEX/NEX InvoiceNo':'InvoiceNo'})
         mail_data_df = pd.DataFrame(col_rename)
         compare_column = 'InvoiceNo'
         try:
             diff_df = mail_data_df[~mail_data_df[compare_column].isin(combined_data[compare_column])]
-            diff_df.to_csv(r'D:\tvsbot\result_set\difference_records.csv' , index = False)
+            diff_df.to_csv(r'\tvsbot\result_set\difference_records.csv' , index = False)
             if compare_column not in combined_data.columns or compare_column not in mail_data_df.columns:
                 raise KeyError(f"Column '{compare_column}' does not exist in both DataFrames.")
             common_df = combined_data.merge(mail_data_df, on=compare_column, how='inner')
-            common_df.to_csv(r'D:\tvsbot\result_set\common_records.csv', index= False)
+            common_df.to_csv(r'\tvsbot\result_set\common_records.csv', index= False)
         except KeyError as e:
             print(f"Error: {e}")
     except Exception as e:
@@ -284,9 +284,9 @@ if __name__ == '__main__':
                             for file in files:
                                 file_path = os.path.join(root, file)
                                 zipf.write(file_path, os.path.relpath(file_path, folder_path))
-                folder_path = r'D:\tvsbot\tvs_portal_files'
-                folder_to_zip = r'D:\tvsbot\result_set'
-                zip_filename = r'D:\tvsbot\mail_folder\tvs_report.zip'
+                folder_path = r'\tvsbot\tvs_portal_files'
+                folder_to_zip = r'\tvsbot\result_set'
+                zip_filename = r'\tvsbot\mail_folder\tvs_report.zip'
                 zip_directory(folder_to_zip, zip_filename)
                 subject = "Reg : TVS Report"
                 body = """<!DOCTYPE html>
@@ -416,10 +416,10 @@ if __name__ == '__main__':
                             if os.path.isfile(src_path):
                                 shutil.move(src_path, os.path.join(new_dest_folder, filename))
                                 print(f"Moved: {src_path} to {new_dest_folder}")
-                source_folder1 = r'D:\tvsbot\combined_invoice'
-                source_folder2 = r'D:\tvsbot\tvs_portal_files'
-                source_folder3 = r'D:\tvsbot\report'
-                source_folder4 = r'D:\tvsbot\result_set'
-                source_folder5 = r'D:\tvsbot\mail_folder'
-                destination_folder = r'D:\tvsbot\old_files'
+                source_folder1 = r'\tvsbot\combined_invoice'
+                source_folder2 = r'\tvsbot\tvs_portal_files'
+                source_folder3 = r'\tvsbot\report'
+                source_folder4 = r'\tvsbot\result_set'
+                source_folder5 = r'\tvsbot\mail_folder'
+                destination_folder = r'\tvsbot\old_files'
                 move_files(source_folder1, source_folder2,source_folder3,source_folder4,source_folder5, destination_folder)
